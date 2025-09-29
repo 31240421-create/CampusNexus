@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Nexus - Student Club Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="login-header">
+                <h2>Welcome to CampusNexus</h2>
+                <p>Please login to continue</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+            <div class="login-options">
+                <button type="button" class="btn-register" onclick="showRegister()">Create Account</button>
+                <button type="button" class="btn-demo" onclick="loginAsDemo()">Try Demo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="login-header">
+                <h2>Create Account</h2>
+                <p>Join CampusNexus today</p>
+            </div>
+            <form id="registerForm" class="login-form">
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="regRole">Role</label>
+                    <select id="regRole" required>
+                        <option value="student">Student</option>
+                        <option value="club_leader">Club Leader</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-login">Create Account</button>
+            </form>
+            <div class="login-options">
+                <button type="button" class="btn-back" onclick="showLogin()">Back to Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar hidden">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text gradient-text-nav">CampusNexus</span>
+            </div>
+            <div class="nav-links">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#clubs" class="nav-link">Clubs</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+                <a href="#operations" class="nav-link">Set Operations</a>
+            </div>
+            <div class="user-menu">
+                <span id="userInfo" class="user-info"></span>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content hidden">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="dashboard-header">
+                <div class="gradient-text-title">Campus Engagement Dashboard</div>
+                <p class="subtitle">Real-time student club management system</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card pulse-animation">
+                    <div class="stat-icon gradient-icon">👥</div>
+                    <div class="stat-content">
+                        <h3 class="gradient-number" id="total-students">0</h3>
+                        <p>Total Students</p>
+                    </div>
+                </div>
+                <div class="stat-card pulse-animation">
+                    <div class="stat-icon gradient-icon">🎯</div>
+                    <div class="stat-content">
+                        <h3 class="gradient-number" id="total-clubs">0</h3>
+                        <p>Active Clubs</p>
+                    </div>
+                </div>
+                <div class="stat-card pulse-animation">
+                    <div class="stat-icon gradient-icon">⭐</div>
+                    <div class="stat-content">
+                        <h3 class="gradient-number" id="multi-club">0</h3>
+                        <p>Multi-Club Members</p>
+                    </div>
+                </div>
+                <div class="stat-card pulse-animation">
+                    <div class="stat-icon gradient-icon">📊</div>
+                    <div class="stat-content">
+                        <h3 class="gradient-number" id="participation-rate">0%</h3>
+                        <p>Participation Rate</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animated Galaxy View -->
+            <div class="galaxy-container">
+                <div class="gradient-text-section">Club Relationship Galaxy</div>
+                <div class="galaxy" id="galaxy-view"></div>
+            </div>
+        </section>
+
+        <!-- Clubs Section -->
+        <section id="clubs" class="section">
+            <div class="section-header">
+                <div class="gradient-text-section">Club Management</div>
+                <div class="search-bar">
+                    <input type="text" id="club-search" placeholder="Search clubs...">
+                    <button class="btn-primary gradient-btn" onclick="addDemoClub()">
+                        <span class="btn-gradient-text">+ Add Club</span>
+                    </button>
+                </div>
+            </div>
+            <div class="clubs-grid" id="clubs-grid"></div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="section-header">
+                <h2>Engagement Analytics</h2>
+                <div class="time-filter">
+                    <select id="time-range">
+                        <option value="7d">Last 7 Days</option>
+                        <option value="30d">Last 30 Days</option>
+                        <option value="90d">Last 90 Days</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="chart-container">
+                    <h3>Club Health Scores</h3>
+                    <div class="health-chart" id="health-chart"></div>
+                </div>
+                <div class="chart-container">
+                    <h3>Membership Distribution</h3>
+                    <div class="venn-diagram" id="venn-diagram">
+                        <div class="venn-circle club-a">Club A</div>
+                        <div class="venn-circle club-b">Club B</div>
+                        <div class="venn-overlap">Overlap</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- At-Risk Students -->
+            <div class="risk-section">
+                <h3>At-Risk Students <span class="risk-badge" id="risk-count">0</span></h3>
+                <div class="risk-list" id="risk-list"></div>
+            </div>
+        </section>
+
+        <!-- Set Operations Section -->
+        <section id="operations" class="section">
+            <div class="section-header">
+                <h2>Set Operations Playground</h2>
+                <p>Visualize club membership relationships</p>
+            </div>
+
+            <div class="operations-panel">
+                <div class="operation-controls">
+                    <select id="operation-type">
+                        <option value="intersection">Intersection (A ∩ B)</option>
+                        <option value="union">Union (A ∪ B)</option>
+                        <option value="difference">Difference (A - B)</option>
+                        <option value="complement">Complement</option>
+                    </select>
+                    <select id="club-a">
+                        <option value="">Select Club A</option>
+                    </select>
+                    <select id="club-b">
+                        <option value="">Select Club B</option>
+                    </select>
+                    <button class="btn-primary" onclick="performOperation()">Run Operation</button>
+                </div>
+
+                <div class="operation-result">
+                    <h4>Operation Result: <span id="result-count">0</span> students</h4>
+                    <div class="student-list" id="operation-result-list"></div>
+                </div>
+
+                <!-- Animated Set Visualization -->
+                <div class="set-visualization">
+                    <div class="set-a">Club A</div>
+                    <div class="set-b">Club B</div>
+                    <div class="set-overlap"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fab gradient-fab" onclick="refreshData()">
+        <span class="fab-gradient-text">🔄</span>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="animations.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

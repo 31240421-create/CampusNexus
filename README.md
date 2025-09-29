@@ -16,8 +16,11 @@ Set-Based Records: Each club’s members are stored as a unique set to automatic
 Smart Analysis with Set Operations:
 
 Intersection (∩) – Find students who are members of multiple clubs.
+
 Symmetric Difference / Custom Logic – Identify students who belong to only one club.
+
 Difference (−) – Highlight students with no club membership.
+
 Fast & Accurate: Handles large student lists efficiently and produces clear results.
   * Find students who are members of **multiple clubs**.
   * Identify those who belong to **only one club**.
